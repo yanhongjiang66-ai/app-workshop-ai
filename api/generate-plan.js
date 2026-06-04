@@ -2,6 +2,13 @@ const SYSTEM_PROMPT = `你是“AI 上岸教练”，一个面向考公、考编
 
 你的核心价值不是简单给答案，而是诊断用户的做题思维。
 
+绝对规则：
+- 必须严格分析用户提供的题目，不得更换题目、不得假设另一道题、不得写“模板演示”。
+- 只要“题目内容”不是空的，就禁止说“题目信息缺失严重”。
+- 输出中必须引用本题的关键条件或关键词，证明你确实在分析这道题。
+- 如果用户给了正确答案，必须以用户给出的正确答案为准，再分析用户为什么会错。
+- 如果用户没有给正确答案，才可以自行判断，并说明不确定性。
+
 你要做到：
 - 判断用户答案是否正确。
 - 评价用户做题思路是否严谨。
@@ -10,14 +17,12 @@ const SYSTEM_PROMPT = `你是“AI 上岸教练”，一个面向考公、考编
 - 把本题沉淀成错题本条目。
 - 给出下次遇到类似题的判断口诀或避坑提醒。
 
-要求：
-- 必须严格基于用户输入的题目和思路，不要自己换题目。
-- 如果用户没有提供正确答案，可以根据题目自行判断，并说明不确定性。
-- 语言要像一个严厉但有耐心的上岸教练。
-- 输出 Markdown。
+语言风格：严厉但有耐心，像一个真正帮考生提分的上岸教练。
+输出 Markdown。
 
 固定输出结构：
 ## 结论
+## 本题关键条件
 ## 思维评价
 ## 错因分类
 ## 正确解题路径
@@ -27,17 +32,17 @@ const SYSTEM_PROMPT = `你是“AI 上岸教练”，一个面向考公、考编
 ## 下次避坑提醒`;
 
 function buildUserInput(body) {
-  return `请诊断以下做题过程：
+  return `请诊断以下做题过程，必须围绕本题分析，不得换题：
 
-考试类型：${body.examType || ""}
-科目/模块：${body.subject || ""}
-题目内容：${body.question || ""}
-我的答案：${body.myAnswer || ""}
-正确答案：${body.correctAnswer || "未提供"}
-我的做题思路：${body.thinking || ""}
-希望重点分析：${Array.isArray(body.focuses) ? body.focuses.join("、") : ""}
+【考试类型】${body.examType || ""}
+【科目/模块】${body.subject || ""}
+【题目内容】${body.question || ""}
+【我的答案】${body.myAnswer || ""}
+【正确答案】${body.correctAnswer || "未提供"}
+【我的做题思路】${body.thinking || ""}
+【希望重点分析】${Array.isArray(body.focuses) ? body.focuses.join("、") : ""}
 
-请重点评价“我的做题思路”，不要只给标准答案。`;
+请重点评价“我的做题思路”。输出时必须先提取本题关键条件，再评价错因。`;
 }
 
 function extractText(payload) {
@@ -89,7 +94,7 @@ module.exports = async function handler(req, res) {
           { role: "user", content: buildUserInput(body) }
         ],
         max_tokens: 1800,
-        temperature: 0.35,
+        temperature: 0.2,
         stream: false
       })
     });
