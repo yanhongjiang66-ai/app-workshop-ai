@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>应用工匠 AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <aside class="sidebar" aria-label="项目模板">
+        <div class="brand">
+          <div class="brand-mark"><i data-lucide="hammer"></i></div>
+          <div>
+            <h1>应用工匠 AI</h1>
+            <p>App / 小程序方案生成器</p>
+          </div>
+        </div>
+
+        <section class="sidebar-section">
+          <div class="section-label"><i data-lucide="layout-template"></i> 行业模板</div>
+          <div class="template-list">
+            <button class="template-btn active" data-template="tea">
+              <span><i data-lucide="coffee"></i></span>
+              <span><strong>奶茶点单</strong><small>门店下单、会员、支付</small></span>
+              <em class="badge">热门</em>
+            </button>
+            <button class="template-btn" data-template="booking">
+              <span><i data-lucide="calendar-check"></i></span>
+              <span><strong>预约服务</strong><small>理发、美甲、家政</small></span>
+              <em class="badge">快交付</em>
+            </button>
+            <button class="template-btn" data-template="course">
+              <span><i data-lucide="graduation-cap"></i></span>
+              <span><strong>课程报名</strong><small>试听、购买、学习</small></span>
+              <em class="badge">高客单</em>
+            </button>
+            <button class="template-btn" data-template="local">
+              <span><i data-lucide="map-pin"></i></span>
+              <span><strong>本地生活</strong><small>商家、地图、优惠</small></span>
+              <em class="badge">增长</em>
+            </button>
+            <button class="template-btn" data-template="custom">
+              <span><i data-lucide="sparkles"></i></span>
+              <span><strong>自定义项目</strong><small>输入任何产品想法</small></span>
+              <em class="badge">自由</em>
+            </button>
+          </div>
+        </section>
+
+        <section class="sidebar-section">
+          <div class="section-label"><i data-lucide="bar-chart-3"></i> 当前目标</div>
+          <div class="metric-box">
+            <div class="metric-row"><span>版本定位</span><strong>MVP</strong></div>
+            <div class="metric-row"><span>建议周期</span><strong id="cycle">7-14 天</strong></div>
+            <div class="metric-row"><span>交付深度</span><strong>方案 + 提示词</strong></div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="builder">
+        <div class="topbar">
+          <div>
+            <h2>把一句想法变成可开发方案</h2>
+            <p>填写业务想法、平台和功能，右侧会生成产品定义、MVP、页面结构、数据库、接口和可复制给开发智能体的提示词。</p>
+          </div>
+          <div class="status-pill"><i data-lucide="activity"></i> 原型可演示</div>
+        </div>
+
+        <form class="panel form-panel" id="builderForm">
+          <div class="field">
+            <label for="idea"><i data-lucide="file-pen-line"></i> 产品想法</label>
+            <textarea id="idea" placeholder="例如：我想做一个奶茶店微信小程序，用户可以点单、使用优惠券、积分会员，店员能在后台处理订单。">我想做一个奶茶店微信小程序，用户可以在线点单、加入会员、领取优惠券，店员可以在后台处理订单和查看销售数据。</textarea>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="audience"><i data-lucide="users"></i> 目标用户</label>
+              <input id="audience" value="实体店老板和到店消费用户" />
+            </div>
+            <div class="field">
+              <label for="budget"><i data-lucide="wallet"></i> 预算 / 复杂度</label>
+              <select id="budget">
+                <option value="低预算快速验证">低预算快速验证</option>
+                <option value="标准可上线版本" selected>标准可上线版本</option>
+                <option value="商业化长期产品">商业化长期产品</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label><i data-lucide="monitor-smartphone"></i> 目标平台</label>
+            <div class="segmented" id="platforms">
+              <button type="button" class="segment active" data-value="微信小程序">微信小程序</button>
+              <button type="button" class="segment" data-value="H5 Web App">H5</button>
+              <button type="button" class="segment" data-value="手机 App">App</button>
+              <button type="button" class="segment" data-value="多端应用">多端</button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="industry"><i data-lucide="store"></i> 行业</label>
+              <select id="industry">
+                <option>餐饮零售</option>
+                <option>预约服务</option>
+                <option>教育课程</option>
+                <option>本地生活</option>
+                <option>电商商城</option>
+                <option>企业工具</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="style"><i data-lucide="palette"></i> UI 风格</label>
+              <select id="style">
+                <option>专业简洁</option>
+                <option>年轻活力</option>
+                <option>高级质感</option>
+                <option>极简效率</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label><i data-lucide="list-checks"></i> 必选功能</label>
+            <div class="feature-grid" id="features">
+              <label class="feature"><input type="checkbox" value="微信登录" checked /> 微信登录</label>
+              <label class="feature"><input type="checkbox" value="商品/服务列表" checked /> 商品/服务列表</label>
+              <label class="feature"><input type="checkbox" value="在线下单" checked /> 在线下单</label>
+              <label class="feature"><input type="checkbox" value="支付" checked /> 支付</label>
+              <label class="feature"><input type="checkbox" value="会员积分" checked /> 会员积分</label>
+              <label class="feature"><input type="checkbox" value="优惠券" checked /> 优惠券</label>
+              <label class="feature"><input type="checkbox" value="后台管理" checked /> 后台管理</label>
+              <label class="feature"><input type="checkbox" value="数据看板" checked /> 数据看板</label>
+              <label class="feature"><input type="checkbox" value="AI 文案/客服" /> AI 文案/客服</label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <span class="hint">建议先生成 MVP，再逐步增加 AI、营销和自动化能力。</span>
+            <div class="btn-row">
+              <button class="btn" type="button" id="resetBtn"><i data-lucide="rotate-ccw"></i> 重置</button>
+              <button class="btn warning" type="button" id="sampleBtn"><i data-lucide="wand-sparkles"></i> 换个案例</button>
+              <button class="btn primary" type="submit"><i data-lucide="play"></i> 生成方案</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="quick-strip">
+          <div class="quick">
+            <strong><i data-lucide="target"></i> 先定核心动作</strong>
+            <p>第一版只保证用户能完成最重要的一件事，例如下单、预约、报名。</p>
+          </div>
+          <div class="quick">
+            <strong><i data-lucide="boxes"></i> 模块化拼装</strong>
+            <p>登录、支付、后台、数据看板按模块接入，后续更容易扩展。</p>
+          </div>
+          <div class="quick">
+            <strong><i data-lucide="rocket"></i> 可交付输出</strong>
+            <p>生成的提示词可以直接交给开发者或 AI 编程工具继续实现。</p>
+          </div>
+        </div>
+
+        <div class="agent-roadmap panel">
+          <div>
+            <strong><i data-lucide="bot"></i> 智能体升级状态</strong>
+            <p>当前是 v0.2 AI 接口版：配置 OPENAI_API_KEY 后由真实模型生成；接口未就绪时自动使用本地备用生成。</p>
+          </div>
+          <div class="roadmap-steps">
+            <span class="done">v0.1 原型</span>
+            <span class="done">v0.2 接入 AI</span>
+            <span>v0.3 项目记忆</span>
+            <span>v0.4 代码生成</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="output">
+        <div class="panel output-shell">
+          <div class="output-header">
+            <div>
+              <h3>生成结果</h3>
+              <p id="generatedAt">等待生成产品方案</p>
+            </div>
+            <div class="score"><strong id="score">--</strong><span id="scoreLabel">可行度</span></div>
+          </div>
+          <div class="result" id="result">
+            <div class="empty">
+              <div>
+                <i data-lucide="clipboard-list" size="42"></i>
+                <p>点击“生成方案”，这里会出现可交付的 App / 小程序开发方案。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast">已复制</div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
