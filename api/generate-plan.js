@@ -47,6 +47,15 @@ function extractText(payload) {
     .join("\n");
 }
 
+function getApiKey() {
+  const key = (process.env.OPENAI_API_KEY || "").trim();
+  if (!key) return { error: "服务端未配置 OPENAI_API_KEY。" };
+  if (!/^sk-[\x21-\x7E]+$/.test(key)) {
+    return { error: "OPENAI_API_KEY 格式不正确。请在 Vercel 里填入真正的 sk- 开头密钥，不要填写中文说明或整行 .env 内容。" };
+  }
+  return { key };
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -62,8 +71,9 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (!process.env.OPENAI_API_KEY) {
-    res.status(500).json({ error: "服务端未配置 OPENAI_API_KEY。" });
+  const apiKey = getApiKey();
+  if (apiKey.error) {
+    res.status(500).json({ error: apiKey.error });
     return;
   }
 
@@ -73,7 +83,7 @@ module.exports = async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+        "Authorization": `Bearer ${apiKey.key}`
       },
       body: JSON.stringify({
         model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
