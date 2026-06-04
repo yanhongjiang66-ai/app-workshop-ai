@@ -38,20 +38,14 @@ UI 风格：${body.style || ""}
 }
 
 function extractText(payload) {
-  if (payload.output_text) return payload.output_text;
-  const output = payload.output || [];
-  return output
-    .flatMap((item) => item.content || [])
-    .map((content) => content.text || "")
-    .filter(Boolean)
-    .join("\n");
+  return payload.choices?.[0]?.message?.content || "";
 }
 
 function getApiKey() {
-  const key = (process.env.OPENAI_API_KEY || "").trim();
-  if (!key) return { error: "服务端未配置 OPENAI_API_KEY。" };
-  if (!/^sk-[\x21-\x7E]+$/.test(key)) {
-    return { error: "OPENAI_API_KEY 格式不正确。请在 Vercel 里填入真正的 sk- 开头密钥，不要填写中文说明或整行 .env 内容。" };
+  const key = (process.env.DEEPSEEK_API_KEY || "").trim();
+  if (!key) return { error: "服务端未配置 DEEPSEEK_API_KEY。请在 Vercel 环境变量中添加 DeepSeek API 密钥。" };
+  if (!/^[\x21-\x7E]+$/.test(key)) {
+    return { error: "DEEPSEEK_API_KEY 格式不正确。请只填写 DeepSeek 控制台复制出来的密钥，不要填写中文说明或整行 .env 内容。" };
   }
   return { key };
 }
@@ -79,30 +73,34 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey.key}`
       },
       body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
-        instructions: SYSTEM_PROMPT,
-        input: buildUserInput(body),
-        max_output_tokens: 1800
+        model: process.env.DEEPSEEK_MODEL || "deepseek-chat",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: buildUserInput(body) }
+        ],
+        max_tokens: 1800,
+        temperature: 0.7,
+        stream: false
       })
     });
 
     const payload = await response.json();
     if (!response.ok) {
       res.status(response.status).json({
-        error: payload.error?.message || "OpenAI API 调用失败。"
+        error: payload.error?.message || "DeepSeek API 调用失败。"
       });
       return;
     }
 
     const markdown = extractText(payload);
-    res.status(200).json({ markdown, provider: "openai" });
+    res.status(200).json({ markdown, provider: "deepseek" });
   } catch (error) {
     res.status(500).json({ error: error.message || "生成失败。" });
   }
