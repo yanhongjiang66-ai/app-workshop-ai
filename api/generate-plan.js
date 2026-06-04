@@ -49,6 +49,14 @@ function extractText(payload) {
   return payload.choices?.[0]?.message?.content || "";
 }
 
+function parseBody(req) {
+  if (!req.body) return {};
+  if (typeof req.body === "string") return JSON.parse(req.body || "{}");
+  if (Buffer.isBuffer(req.body)) return JSON.parse(req.body.toString("utf8") || "{}");
+  if (typeof req.body === "object") return req.body;
+  return {};
+}
+
 function getApiKey() {
   const key = (process.env.DEEPSEEK_API_KEY || "").trim();
   if (!key) return { error: "服务端未配置 DEEPSEEK_API_KEY。请在 Vercel 环境变量中添加 DeepSeek API 密钥。" };
@@ -80,7 +88,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
+    const body = parseBody(req);
     const response = await fetch("https://api.deepseek.com/chat/completions", {
       method: "POST",
       headers: {
