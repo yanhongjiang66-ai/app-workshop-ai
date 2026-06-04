@@ -1,0 +1,8 @@
+{
+  "name": "app-workshop-ai-site",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "node local-server.js"
+  }
+}
