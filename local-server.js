@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const generatePlanHandler = require("./api/generate-plan");
 const questionBankHandler = require("./api/question-bank");
+const learningRecordsHandler = require("./api/learning-records");
 
 const root = __dirname;
 const port = Number(process.env.PORT || 8792);
@@ -96,6 +97,10 @@ http.createServer(async (req, res) => {
       await serveApi(req, res, questionBankHandler);
       return;
     }
+    if (req.url.startsWith("/api/learning-records")) {
+      await serveApi(req, res, learningRecordsHandler);
+      return;
+    }
     serveStatic(req, res);
   } catch (error) {
     res.statusCode = 500;
@@ -103,5 +108,5 @@ http.createServer(async (req, res) => {
     res.end(JSON.stringify({ error: error.message || "Server error" }));
   }
 }).listen(port, "127.0.0.1", () => {
-  console.log(`AI 学考教练 v0.6: http://127.0.0.1:${port}`);
+  console.log(`AI 学考教练 v0.7: http://127.0.0.1:${port}`);
 });
