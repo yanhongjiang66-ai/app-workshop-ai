@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AI 上岸教练</title>
+    <title>AI 学考教练</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -16,13 +16,13 @@
         <div class="brand">
           <div class="brand-mark"><i data-lucide="graduation-cap"></i></div>
           <div>
-            <h1>AI 上岸教练</h1>
-            <p>知识过关 / 思维纠错 / 错题复盘</p>
+            <h1>AI 学考教练</h1>
+            <p>题库练习 / 知识过关 / 思维纠错</p>
           </div>
         </div>
 
         <section class="sidebar-section">
-          <div class="section-label"><i data-lucide="book-open-check"></i> 考试场景</div>
+          <div class="section-label"><i data-lucide="book-open-check"></i> 学习场景</div>
           <div class="template-list">
             <button class="template-btn active" data-template="civil">
               <span><i data-lucide="landmark"></i></span>
@@ -55,8 +55,8 @@
         <section class="sidebar-section">
           <div class="section-label"><i data-lucide="bar-chart-3"></i> 当前版本</div>
           <div class="metric-box">
-            <div class="metric-row"><span>产品阶段</span><strong>v0.2</strong></div>
-            <div class="metric-row"><span>核心能力</span><strong>错题闭环</strong></div>
+            <div class="metric-row"><span>产品阶段</span><strong>v0.3</strong></div>
+            <div class="metric-row"><span>核心能力</span><strong>自主学习</strong></div>
             <div class="metric-row"><span>模型接口</span><strong>DeepSeek</strong></div>
           </div>
         </section>
@@ -65,11 +65,42 @@
       <section class="builder">
         <div class="topbar">
           <div>
-            <h2>把“我为什么错”讲清楚</h2>
-            <p>输入题目、你的答案和做题思路，AI 会诊断你的推理漏洞、知识盲点和纠正方法，并生成错题本条目。</p>
+            <h2>从刷题到复盘，一站式过关</h2>
+            <p>选择考试类型进入题库练习，也可以粘贴自己的题目和做题思路，让 AI 诊断知识盲点、推理漏洞和纠正方法。</p>
           </div>
-          <div class="status-pill"><i data-lucide="notebook-tabs"></i> 错题本版</div>
+          <div class="status-pill"><i data-lucide="layers-3"></i> 泛考试题库版</div>
         </div>
+
+        <section class="panel bank-panel" aria-label="题库中心">
+          <div class="records-header">
+            <div>
+              <strong><i data-lucide="library-big"></i> 题库中心</strong>
+              <p>先内置少量示例题，把自主学习流程跑通；后续可以继续扩充四六级、考研、法考、会计、医学等题库。</p>
+            </div>
+            <div class="bank-counter"><span id="bankCount">0</span> 题可练</div>
+          </div>
+
+          <div class="bank-filters" id="bankFilters"></div>
+
+          <div class="practice-card" id="practiceCard">
+            <div class="practice-top">
+              <div>
+                <span class="tag" id="practiceExam">考试类型</span>
+                <span class="tag" id="practiceSubject">科目模块</span>
+              </div>
+              <div class="practice-progress" id="practiceProgress">1 / 1</div>
+            </div>
+            <h3 id="practiceTitle">请选择题库开始练习</h3>
+            <p id="practiceStem">从上方选择一个考试分类，系统会展示对应练习题。</p>
+            <div class="option-list" id="optionList"></div>
+            <div class="practice-explain hidden" id="practiceExplain"></div>
+            <div class="btn-row">
+              <button class="btn primary" type="button" id="checkAnswerBtn"><i data-lucide="circle-check"></i> 提交答案</button>
+              <button class="btn" type="button" id="nextQuestionBtn"><i data-lucide="arrow-right"></i> 下一题</button>
+              <button class="btn warning" type="button" id="sendToCoachBtn"><i data-lucide="brain"></i> 交给 AI 诊断</button>
+            </div>
+          </div>
+        </section>
 
         <form class="panel form-panel" id="coachForm">
           <div class="grid-2">
@@ -80,6 +111,11 @@
                 <option>事业编/考编</option>
                 <option>教师资格证</option>
                 <option>教师招聘</option>
+                <option>大学英语四级</option>
+                <option>大学英语六级</option>
+                <option>考研</option>
+                <option>专升本/自考</option>
+                <option>职业资格考试</option>
                 <option>三支一扶</option>
                 <option>其他考试</option>
               </select>
@@ -94,6 +130,10 @@
                 <option>教育知识与能力</option>
                 <option>综合素质</option>
                 <option>申论/主观题</option>
+                <option>英语-词汇语法</option>
+                <option>英语-阅读理解</option>
+                <option>英语-翻译写作</option>
+                <option>职业资格-法律法规</option>
               </select>
             </div>
           </div>
@@ -159,12 +199,12 @@
         <div class="agent-roadmap panel">
           <div>
             <strong><i data-lucide="bot"></i> 智能体定位</strong>
-            <p>当前是 AI 上岸教练 v0.2：诊断后自动沉淀历史记录和错题本，先形成复盘闭环，再扩展知识过关和自动出题。</p>
+            <p>当前是 AI 学考教练 v0.3：加入泛考试题库和自主练习入口，先覆盖公职、教师、英语四六级等方向，再逐步扩充海量题库。</p>
           </div>
           <div class="roadmap-steps">
             <span class="done">v0.1 思维诊断</span>
             <span class="done">v0.2 错题本</span>
-            <span>v0.3 知识过关</span>
+            <span class="done">v0.3 题库练习</span>
             <span>v0.4 自动出题</span>
           </div>
         </div>

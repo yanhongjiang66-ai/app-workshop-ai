@@ -419,6 +419,162 @@
         gap: 12px;
       }
 
+      .bank-panel {
+        margin-bottom: 18px;
+        padding: 15px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .bank-counter {
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 7px 10px;
+        border-radius: var(--radius);
+        color: var(--teal-2);
+        background: var(--mint);
+        border: 1px solid #bfe8df;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .bank-counter span {
+        font-size: 18px;
+      }
+
+      .bank-filters {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .bank-filter {
+        min-height: 34px;
+        border-radius: 999px;
+        padding: 6px 11px;
+        color: #51615e;
+        background: #eef4f3;
+        border: 1px solid var(--line);
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .bank-filter.active {
+        color: #fff;
+        background: var(--teal);
+        border-color: var(--teal);
+      }
+
+      .practice-card {
+        display: grid;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fbfdfc;
+      }
+
+      .practice-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .practice-progress {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .practice-card h3 {
+        margin: 0;
+        color: var(--text);
+        font-size: 16px;
+      }
+
+      .practice-card p {
+        margin: 0;
+        color: #42504d;
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .option-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .option-btn {
+        width: 100%;
+        min-height: 44px;
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 10px;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        background: #ffffff;
+        color: #34413e;
+        text-align: left;
+      }
+
+      .option-btn strong {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: #eef4f3;
+        color: var(--teal-2);
+        font-size: 13px;
+      }
+
+      .option-btn span {
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .option-btn.selected {
+        border-color: #43a99e;
+        box-shadow: 0 0 0 3px rgba(17, 123, 114, 0.1);
+      }
+
+      .option-btn.correct {
+        border-color: #68b58a;
+        background: #edf9f2;
+      }
+
+      .option-btn.wrong {
+        border-color: #d48b8b;
+        background: #fff0f0;
+      }
+
+      .practice-explain {
+        padding: 12px;
+        border-radius: var(--radius);
+        border: 1px solid #bfe8df;
+        background: var(--mint);
+      }
+
+      .practice-explain.hidden {
+        display: none;
+      }
+
+      .practice-explain strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--teal-2);
+        font-size: 14px;
+      }
+
       .quick {
         padding: 14px;
         border: 1px solid var(--line);
@@ -920,13 +1076,19 @@
 
         .records-header,
         .record-item,
-        .record-actions {
+        .record-actions,
+        .practice-top {
           align-items: stretch;
         }
 
         .records-header,
-        .record-item {
+        .record-item,
+        .practice-top {
           grid-template-columns: 1fr;
+        }
+
+        .practice-top {
+          flex-direction: column;
         }
 
         .record-actions {
