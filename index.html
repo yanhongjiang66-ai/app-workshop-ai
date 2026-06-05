@@ -55,8 +55,8 @@
         <section class="sidebar-section">
           <div class="section-label"><i data-lucide="bar-chart-3"></i> 当前版本</div>
           <div class="metric-box">
-            <div class="metric-row"><span>产品阶段</span><strong>v0.1</strong></div>
-            <div class="metric-row"><span>核心能力</span><strong>思维诊断</strong></div>
+            <div class="metric-row"><span>产品阶段</span><strong>v0.2</strong></div>
+            <div class="metric-row"><span>核心能力</span><strong>错题闭环</strong></div>
             <div class="metric-row"><span>模型接口</span><strong>DeepSeek</strong></div>
           </div>
         </section>
@@ -68,7 +68,7 @@
             <h2>把“我为什么错”讲清楚</h2>
             <p>输入题目、你的答案和做题思路，AI 会诊断你的推理漏洞、知识盲点和纠正方法，并生成错题本条目。</p>
           </div>
-          <div class="status-pill"><i data-lucide="brain"></i> 思维纠错版</div>
+          <div class="status-pill"><i data-lucide="notebook-tabs"></i> 错题本版</div>
         </div>
 
         <form class="panel form-panel" id="coachForm">
@@ -159,14 +159,41 @@
         <div class="agent-roadmap panel">
           <div>
             <strong><i data-lucide="bot"></i> 智能体定位</strong>
-            <p>当前是 AI 上岸教练 v0.1：先解决“做题思维诊断”。下一步会加入错题本保存、知识点体系和自动出题。</p>
+            <p>当前是 AI 上岸教练 v0.2：诊断后自动沉淀历史记录和错题本，先形成复盘闭环，再扩展知识过关和自动出题。</p>
           </div>
           <div class="roadmap-steps">
             <span class="done">v0.1 思维诊断</span>
-            <span>v0.2 错题本</span>
+            <span class="done">v0.2 错题本</span>
             <span>v0.3 知识过关</span>
             <span>v0.4 自动出题</span>
           </div>
+        </div>
+
+        <div class="panel records-panel">
+          <div class="records-header">
+            <div>
+              <strong><i data-lucide="notebook-tabs"></i> 学习记录</strong>
+              <p>诊断完成后会自动保存到本机浏览器，后续可升级为账号云端错题本。</p>
+            </div>
+            <div class="btn-row">
+              <button class="btn" type="button" id="exportRecordsBtn"><i data-lucide="download"></i> 导出</button>
+              <button class="btn danger" type="button" id="clearRecordsBtn"><i data-lucide="trash-2"></i> 清空</button>
+            </div>
+          </div>
+
+          <div class="record-stats">
+            <div><span>诊断次数</span><strong id="totalCount">0</strong></div>
+            <div><span>错题数量</span><strong id="mistakeCount">0</strong></div>
+            <div><span>最近模块</span><strong id="lastSubject">--</strong></div>
+          </div>
+
+          <div class="record-tabs">
+            <button class="record-tab active" type="button" data-record-tab="history">诊断历史</button>
+            <button class="record-tab" type="button" data-record-tab="mistakes">错题本</button>
+          </div>
+
+          <div class="record-list" id="historyList"></div>
+          <div class="record-list hidden" id="mistakeList"></div>
         </div>
       </section>
 
